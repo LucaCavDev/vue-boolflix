@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <title>Milestone1 Cavicchioli Bootflix</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Signika&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <div class="title">
+          Cerca un film:
+        </div>
+
+        <div class="searchContainer">
+          <input class="searchBar" type="text" name="" value="" v-model="thisSearch" placeholder="Scrivimi ;-*" @keyup.enter="searchFunction">
+          <button type="button" name="button" @click="searchFunction">Schiacciami</button>
+        </div>
+        <!-- faccio una ricerca con il termine di ricerca che diventa query nel database del sito tmdb -->
+        <!-- quello che trovo da api lo estraggo e metto in un array, che qua sotto ciclo in un UL -->
+        <ul v-for="movie in arrayMovies" class="red">
+          <li class="blue">
+            <div class="title green">TITOLO: {{ movie.title }} </div>
+            <div class="original_title yellow">TITOLO ORIGINALE: {{ movie.original_title }} </div>
+            <div class="original_language pink">LINGUA: {{ movie.original_language }} </div>
+            <div class="vote_average orange">VOTO: {{ movie.vote_average }} </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <script type="text/javascript" src="js/script.js"></script>
+  </body>
+</html>
