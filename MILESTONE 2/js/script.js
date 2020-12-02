@@ -44,7 +44,6 @@ var app = new Vue ({
         this.thisSearch = '';
       });
 
-
     }
 
 
