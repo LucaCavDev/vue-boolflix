@@ -9,10 +9,11 @@
     <title>Milestone2 Cavicchioli Bootflix</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Signika&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/37e6ce0705.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <div id="app">
-      <div class="container">
+      <div class="container purple">
         <div class="titoloPagina">
           Cerca un film:
         </div>
@@ -21,15 +22,31 @@
           <input class="searchBar" type="text" name="" value="" v-model="thisSearch" placeholder="Scrivimi ;-*" @keyup.enter="searchFunction">
           <button type="button" name="button" @click="searchFunction">Schiacciami</button>
         </div>
-        <ul v-for="movie in arrayMovies" class="red">
-          <li class="blue">
+
+        <div class="red contenitoreSchede">
+
+          <div class="blue scheda" v-for="movie in arrayMovies">
             <div class="title green">TITOLO: {{ movie.title }} </div>
             <div class="original_title yellow">TITOLO ORIGINALE: {{ movie.original_title }} </div>
+
+            <div class="nationality grey">
+              <div class="flag grey">
+                <img v-if="flagFunction(movie.original_language)" :src="`./flags/${movie.original_language}.svg`" alt="">
+                <img v-else :src="`./flags/notFound.svg`" alt="">
+              </div>
+            </div>
+
             <div class="original_language pink">LINGUA: {{ movie.original_language }} </div>
-            <div class="flag grey">BANDIERA: <img :src="`./flags/${movie.original_language}.svg`" alt=""> </div>
+
             <div class="vote_average orange">VOTO: {{ movie.vote_average }} </div>
-          </li>
-        </ul>
+            <div class="vote_stars grey">
+              <i v-for="fullStar in voteStarsFunct(movie)" class="fas fa-star" ></i>
+              <i v-for="hollowStar in (5 - voteStarsFunct(movie))" class="far fa-star"></i>
+            </div>
+          </div>
+
+        </div>
+
       </div>
 
     </div>
