@@ -16,14 +16,21 @@
 var app = new Vue ({
   el: '#app',
   data: {
-    arrayMovies: [],
+    //modifico arrayMovies in arrayRisultati avendo aggiunto la chiamata alla tv
+    arrayRisultati: [],
     //aggiungo l'array delle bandiere che ho salvato nel progetto e rinominato con gli stessi noi di original_language, cosi faccio il confronto con questi array e faro nell'html un v if v else per il caso in cui non c'è una bandiera corrispondente nell'array
-    arrayFlags: ['de', 'en', 'es', 'fr', 'it', 'pt','ru', 'zh'],
+    arrayFlags: ['de', 'en', 'es', 'fr', 'it', 'pt','ru', 'zh', 'ja'],
     thisSearch: ''
   },
 
+  // Prof consiglia 1 funzione 2 chiamate e modifica output tv per matchare output film gia funzionante in pagina
+
   methods: {
     searchFunction: function() {
+
+      //stessa azione di ricerca(quindi stessa funzione) prendere sia movie che tv, quindi faccio fare alla funzione 2 chiamate
+
+      //Chiamata per movie:
       axios
       .get('https://api.themoviedb.org/3/search/movie',
         { params:
@@ -35,11 +42,32 @@ var app = new Vue ({
         }
       )
       .then(risposta => {
-        this.arrayMovies = risposta.data.results;
-
-        this.thisSearch = '';
+        this.arrayRisultati = risposta.data.results;
       });
 
+      //chiamata serie tv
+      axios
+      .get('https://api.themoviedb.org/3/search/tv',
+        { params:
+          {
+            api_key: '2cd3ef7f0cd27a179b24f4410ce0e944',
+            query: this.thisSearch,
+            language: 'it-IT'
+          }
+        }
+      )
+      //adesso il risposta.data.results devo tradurlo per ogni elemento nella sintassi che utilizzo per i film
+      .then(risposta => {
+        for (var i = 0; i < risposta.data.results.length; i++) {
+          this.arrayRisultati.push({
+            title: risposta.data.results[i].name,
+            original_title: risposta.data.results[i].original_name,
+            original_language: risposta.data.results[i].original_language,
+            vote_average: risposta.data.results[i].vote_average,
+          })
+        };
+      });
+      this.thisSearch = '';
     },
 
     voteStarsFunct: function(movie) {
@@ -55,5 +83,3 @@ var app = new Vue ({
     }
   }
 })
-
-// per tv film cambiare output
