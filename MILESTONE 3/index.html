@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <title>Milestone3 Cavicchioli Bootflix</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Signika&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/37e6ce0705.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <div class="titoloPagina">
+          BOOLFLIX
+        </div>
+
+        <div class="searchContainer">
+          <input class="searchBar" type="text" name="" value="" v-model="thisSearch" placeholder="Scrivimi ;-*" @keyup.enter="searchFunction">
+          <button class="searchButton" type="button" name="button" @click="searchFunction">Schiacciami</button>
+        </div>
+
+      </header>
+
+      <div class="contenitoreRicerche">
+
+        <!-- film -->
+        <div class="risultatiFilm corniceRicerche">
+           <!-- v-if="(arrayFilm.length > 0)" -->
+          <ul v-if="(arrayFilm.length > 0)">
+            <h1>FILM</h1>
+
+            <li class="scheda" v-for="movie in arrayFilm">
+              <div class="poster">
+                <img v-if="movie.poster_path" :src="summonPoster(movie.poster_path)" alt="">
+                <img v-else src="./img/404.png"  alt="">
+              </div>
+              <div class="testoCheAppareOnHover">
+                <div class="title">TITOLO: {{ movie.title }} </div>
+                <div class="original_title">TITOLO ORIGINALE: {{ movie.original_title }} </div>
+                <div class="nationality">
+                  <div class="flag">
+                    <img v-if="flagFunction(movie.original_language)" :src="`./flags/${movie.original_language}.svg`" alt="">
+                    <img v-else :src="`./flags/notFound.svg`" alt="">
+                  </div>
+                </div>
+                <div class="original_language">LINGUA: {{ movie.original_language }} </div>
+                <div class="vote_average">VOTO: {{ movie.vote_average }} </div>
+                <div class="vote_stars">
+                  <i v-for="fullStar in voteStarsFunct(movie)" class="fas fa-star" ></i>
+                  <i v-for="hollowStar in (5 - voteStarsFunct(movie))" class="far fa-star"></i>
+                </div>
+                <div v-if="movie.overview != ''" class="overview">OVERVIEW: {{ movie.overview }}</div>
+                <div v-else class="">Sorry, no overview. Go visit www.imdb.com</div>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+
+        <!-- telefilm -->
+        <div class="risultatiTelefilm corniceRicerche">
+          <ul v-if="(arraySerieTv.length > 0)" >
+            <h1>TELEFILM</h1>
+            <li class="blue scheda" v-for="serieTv in arraySerieTv">
+              <div class="poster">
+                <img v-if="serieTv.poster_path" :src="summonPoster(serieTv.poster_path)" alt="">
+                <img v-else src="./img/404.png"  alt="">
+              </div>
+              <div class="testoCheAppareOnHover">
+                <div class="title">TITOLO: {{ serieTv.name }} </div>
+                <div class="original_title">TITOLO ORIGINALE: {{ serieTv.original_name }} </div>
+                <div class="nationality">
+                  <div class="flag">
+                    <img v-if="flagFunction(serieTv.original_language)" :src="`./flags/${serieTv.original_language}.svg`" alt="">
+                    <img v-else :src="`./flags/notFound.svg`" alt="">
+                  </div>
+                </div>
+                <div class="original_language">LINGUA: {{ serieTv.original_language }} </div>
+                <div class="vote_average">VOTO: {{ serieTv.vote_average }} </div>
+                <div class="vote_stars">
+                  <i v-for="fullStar in voteStarsFunct(serieTv)" class="fas fa-star" ></i>
+                  <i v-for="hollowStar in (5 - voteStarsFunct(serieTv))" class="far fa-star"></i>
+                </div>
+                <div v-if="serieTv.overview != ''" class="original_language">OVERVIEW: {{ serieTv.overview }}</div>
+                <div v-else class="">Sorry, no overview. Go visit www.imdb.com</div>
+              </div>
+            </li>
+          </ul>
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+    <script type="text/javascript" src="js/script.js"></script>
+  </body>
+</html>
